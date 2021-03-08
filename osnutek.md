@@ -1,7 +1,7 @@
 **Problem**
 
-For this project we decided to take a kaggle challenge "Craft canned beers data
-set". With the given data we plan to the answer to the following
+For this project we decided to take a kaggle challenge "Craft canned beers data set"
+(https://www.kaggle.com/nickhould/craft-cans). With the given data we plan to the answer to the following
 questions :
 
 -   What types of beers are most popular in different regions.
