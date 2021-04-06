@@ -5,6 +5,7 @@ For the bitterness we get a distribution which tells us that the majority of the
 And the average alcohol level of all beers is 0.06.
 
 
+
 Clusters
 
 For the clustering we devide the dataset into regions and states, because the whole dataset is too large to display with a graph.
