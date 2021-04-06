@@ -1,6 +1,6 @@
 ## Problem
 
-For this project we decided to take a kaggle challenge "Craft canned beers data set" (https://www.kaggle.com/nickhould/craft-cans). With the given data we plan to the answer to the following questions :
+For this project we decided to take a kaggle challenge "*Craft canned beers data set*" (https://www.kaggle.com/nickhould/craft-cans). With the given data we plan to the answer to the following questions :
 
 What types of beers are most popular in different regions.
 
@@ -16,31 +16,31 @@ The data is split in two files.
 
 - beers.csv (List of 2K+ craft canned beers from the US.)
 
- -row number
+  - row number
 
- - ibu - International bittering units, which describe how bitter a drink is.
+  - ibu - International bittering units, which describe how bitter a drink is.
 
- - abv - The alcoholic content by volume with 0 being no alcohol and 1 being pure alcohol.
+  - abv - The alcoholic content by volume with 0 being no alcohol and 1 being pure alcohol.
 
- - id - unique id
+  - id - unique id
 
- - name - name of the beer
+  - name - name of the beer
 
- - style - beer style(lager, IPA, ale, etc.)
+  - style - beer style(lager, IPA, ale, etc.)
 
- - brewery id - Unique identifier for brewery that produces this beer; can use to join with brewery info.
+  - brewery id - Unique identifier for brewery that produces this beer; can use to join with brewery info.
 
- - ounces - Size of beer in ounces.
+  - ounces - Size of beer in ounces.
 
 - breweries.csv ( List of 500+ breweries in the United States.)
 
- - brewery_id
+  - brewery_id
 
- - name - Name of the brewery.
+  - name - Name of the brewery.
 
- - city - City that the brewery is located in.
+  - city - City that the brewery is located in.
 
- - state - state that the brewery is located in.
+  - state - state that the brewery is located in.
 
 
 
@@ -57,12 +57,12 @@ We decided it would be best instead of replacing the missing values, to exclude 
 
 ## Statistical analysis
 
-While checking the distribution of different beer styles we found that the most popular styles are 'American IPA' accounting for roughly 18% of all beers, 'American Pale Ale (APA)' accounting for 10% of all beers and 'American Amber/Red Ale' making up 5% of all beers.
+While checking the distribution of different beer styles we found that the most popular styles are **'American IPA'** accounting for roughly **18%** of all beers, **'American Pale Ale (APA)'** accounting for **10%** of all beers and **'American Amber/Red Ale'** making up **5%** of all beers.
 
 
-We performed a Pearon Correlation test and found that there is a strong positive correlation between bitterness and alcohol level.
+We performed a Pearson Correlation test and found that there is a strong positive correlation between bitterness and alcohol level.
 
-We looked at the top ten beer styles and found that 'American Double/Imperial IPA' has a significanlty higher alcohol and bitterness level compared to the rest. 'American IPA' also has a notable bitterness level.
+We looked at the top ten beer styles and found that **'American Double/Imperial IPA'** has a significanlty higher alcohol and bitterness level compared to the rest. **'American IPA'** also has a notable bitterness level.
 
 
 # Grouping states into regions
@@ -78,7 +78,7 @@ We looked at the most popular styles in each region.
 
 ## Beta distributions
 
-We display the average bitterness and alcohol levels of each beer using the beta distribution.
+Average bitterness and alcohol levels of each beer can be modeled using the beta distribution.
 For the bitterness we get a distribution which tells us that the majority of the beers are not that bitter.
 And the average alcohol level of all beers is 0.06.
 
@@ -87,7 +87,7 @@ And the average alcohol level of all beers is 0.06.
 
 For the clustering we devide the dataset into regions and states, because the whole dataset is too large to display with a graph.
 We constroct the matrix using "name" of beers as X values and fill up the Y values of that X value with:
--Average "ibu", we add "-1" if it doesn't have an "ibu" value;
+-Average "ibu", we add -1 if it doesn't have an "ibu" value (to be changed in the future);
 -Average "abv" (alcohol level), and again add "-1" if it doesn't contain an "abv" value;
 -"1" for the "style" it is, and add 0's for all other styles that it is not;
 -"1" for the "brewery_id" it is, and again fill with 0's for which "brewery_id" it is not.
