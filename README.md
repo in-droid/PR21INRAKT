@@ -82,8 +82,8 @@ Later in the project we will use clustering to make a recommendation system, in 
 
 Many beers throughout the states and all in *South Dakota* do not have information about *bitterness* provided. The case of the missing values was not provided in the description of the data, so we assume that the values are most likely *missing at random*. In this case we try to model the *bitterness units* (*ibu*) with multiple regression models, choose the one that best fits the data, and use it to predict the **NaN** values.
 
-The models are evaluated using $ R^2 $ score and **RMSE** (root mean squared error). Because sometimes the splitting of the data can be biased(it may contain different distributions in the test and train set), so we repeat the 'experiment' four times and from that we calculate the mean of the metric used for evaluation.
-From all the models *Random forest regressor* works the best with $ R^2 $ = 0.775 and ***RMSE*** = 12.749 (average values of four repeated experiments.)
+The models are evaluated using R^2 score and **RMSE** (root mean squared error). Because sometimes the splitting of the data can be biased(it may contain different distributions in the test and train set), so we repeat the 'experiment' four times and from that we calculate the mean of the metric used for evaluation.
+From all the models *Random forest regressor* works the best with R^2= 0.775 and ***RMSE*** = 12.749 (average values of four repeated experiments.)
 
 ## Regional grouping
 
