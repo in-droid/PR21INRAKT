@@ -46,56 +46,70 @@ The data is split in two files.
 
 ## Data Cleaning
 
-Before we can use our data we have to clean and correct some missing values. 
-A small number of beers were missing their 'alcohol level' attribute. 
-We decided to replace each value with the median alcohol level of the same style beer.
+Before we analyze and use the data we have to account for the missing values.
+Since there are few missing alcohol level(**abv**) and **style** values, we'll impute them using simpler methods, and then perform a visual analysis of the data. Afterwards we will impute the missing **ibu** using a more complex approach since a very large portion of the data is missing.
+For the missing **abv** values, we will use a **hot deck** imputation method, where we replace the missing value with the median alcohol level of beers of the same **style**. This method seems most intuitive since it is common for beers of the same style to have similar alcohol levels.
 
-Very few beers(5 to be exact) were missing their style attribute. Since the number is so small, we decided to replace it with the most common style.
+## Visualizations
 
-A very large portion of the dataset is missing the 'bitterness level' attribute. 
-We decided it would be best instead of replacing the missing values, to exclude that portion of the dataset when dealing with analyses involving bitterness.
+Before doing the models, we need to gather information about the distributions, outliers, and mine knowledge from the data. We do this using different visualisations that will help us discover more details about the data.
 
-## Statistical analysis
+![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/styleDist.png?raw=true)
+From the barchart above we can see that the most 'popular' style is America IPA, with American Pale Ale on the second place and American Amber/ Red Ale on the third place. There are many styles that only take a small fracture of the whole dataset.
 
-While checking the distribution of different beer styles we found that the most popular styles are **'American IPA'** accounting for roughly **18%** of all beers, **'American Pale Ale (APA)'** accounting for **10%** of all beers and **'American Amber/Red Ale'** making up **5%** of all beers.
+![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/scatterPlot.png?raw=true)
+Next we plot the bitterness and the alcoholic content of each beer, so we can see if there is any kind of correlation between these two variables. The scatter plot above suggests a positive linear correlation.
+The **pearson coefficient** is 0.68 which confirms the statement above.
 
+![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/catPlot.png?raw=true)
+This visualization specifies the *bitterness* and *alcoholic content* for the top 10 most 'popular' styles off beers.
 
-We performed a Pearson Correlation test and found that there is a strong positive correlation between bitterness and alcohol level.
+![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/betaDist.png?raw=true)
+The Beta destribution above is bell shaped. The graph for 'Bitterness' is skewed right (positively skewed) and shows us that the majority of beers are not that bitter. The graph for 'Alcohol Levels' is normally distributed with a mean value of 0.06.
 
-We looked at the top ten beer styles and found that **'American Double/Imperial IPA'** has a significanlty higher alcohol and bitterness level compared to the rest. **'American IPA'** also has a notable bitterness level.
+It would be useful if we have the information separated by state, so we can recognize if there is any dependency between the state of production and the beer *bitterness*, *alcohol content*, *style*, etc.
+![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/stateMap.png?raw=true)
+The interactive map above shows the statistics for each state separately. What is interesting is the fact that we do not have bitterness data from the breweries in *South Dakota*.
 
+## Imputation of data - Bitterness
 
-# Grouping states into regions
+Later in the project we will use clustering to make a recommendation system, in order to score the clusters we will use silhouette score which does not work with missing values. To solve this problem we will use imputation.
 
-Since the sample size can vary exponentialy from state to state, we decided it would be better to group state data into geographical regions: North East, South East, South West, Mid West and West.
+Many beers throughout the states and all in *South Dakota* do not have information about *bitterness* provided. The case of the missing values was not provided in the description of the data, so we assume that the values are most likely *missing at random*. In this case we try to model the *bitterness units* (*ibu*) with multiple regression models, choose the one that best fits the data, and use it to predict the **NaN** values.
 
+The models are evaluated using $ R^2 $ score and **RMSE** (root mean squared error). Because sometimes the splitting of the data can be biased(it may contain different distributions in the test and train set), so we repeat the 'experiment' four times and from that we calculate the mean of the metric used for evaluation.
+From all the models *Random forest regressor* works the best with $ R^2 $ = 0.775 and ***RMSE*** = 12.749 (average values of four repeated experiments.)
+
+## Regional grouping
+
+To better gain some insight into any possibly interesting correlations or differences in data, we decided to group the beers into geographical regions based on their respective brewery's state. These regions include the North East, the South East, the Mid West, the South West and the West. 
+We will try to distinguish if there is any speciffic difference in taste between regions of the United States, and see which styles are most popular everywhere.
+
+![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/regionAlc.png?raw=true)
 We compared some attributes between these regional subsets. 
-There does not seem to be much of a difference in mean alcohol level between states, ut the Mid West seems to have the highest and the North East has the lowest.
+There does not seem to be much of a difference in mean alcohol level between states, but the Mid West seems to have the highest and the North East has the lowest.
 
+![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/regionStyle.png?raw=true)
 We looked at the most popular styles in each region.
 'American IPA' dominates in popularity in each region. The 4 runners up in each region are farily close in popularity to each other, with the exception of 'American Pale Ale' that is fairly more poular in the South East and the Mid West.
 
+## Clustering
 
-## Beta distributions
+We use hierarchical clustering to identify and group similar beers together, so that we may later use these clusters for our recommendation function. 
+We chose to use a clustering approach for the recommendation function because our data does not contain any individual user information, so there is no reliable way to use matrix factorization.
 
-Average bitterness and alcohol levels of each beer can be modeled using the beta distribution.
-For the bitterness we get a distribution which tells us that the majority of the beers are not that bitter.
-And the average alcohol level of all beers is 0.06.
+![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/clustering.png?raw=true)
+Since the whole dataset is too big, for a better visualiation we only show clusters of states and regions.
+The above graph shows the clusters in the state '(MN) Minnesota', having a decent silhouette score of 0.219. 
 
+## Recommendation function
 
-## Clusters
+For our recommendation function we will first create 2 clusterings for the whole beers dataset. First one using the optimal calculated t metric for cutting, and the second with the optimal metric decreased by 0.2 points. The second is mainly used in cases where the first's derived groups are too big and we need to branch out more to get a better recommendation. 
+Most clusters are of reasonable length, but we have some clusters with more than 400, 200 and 100 elements, that are a bit too big to get recommendations from. This is why we employ the second clustering method for those.
 
-For the clustering we devide the dataset into regions and states, because the whole dataset is too large to display with a graph.
-We constroct the matrix using "name" of beers as X values and fill up the Y values of that X value with:
-  - Average "ibu", we add -1 if it doesn't have an "ibu" value (to be changed in the future);
-  - Average "abv" (alcohol level), and again add "-1" if it doesn't contain an "abv" value;
-  - "1" for the "style" it is, and add 0's for all other styles that it is not;
-  - "1" for the "brewery_id" it is, and again fill with 0's for which "brewery_id" it is not.
+## GUI Implementation
 
-We use this matrix to construct a dendrogram for the given dataset.
+Finally we created a graphical user interface where you can input names of your favorite beers and recieve a list of recommended beers that you might like.
+For the gui we used pyqt5 and created a few widgets and a function that get activated by clicking a button, after which results for recommendation are displayed.
 
-
-## Future work
-
-We plan to look into more correlations and better optimize our clustering methods in order to develop a good recommendation system that can suggest beers to a user based on their current preferences.
-
+![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/gui.png?raw=true)
