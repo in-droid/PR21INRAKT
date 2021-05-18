@@ -56,7 +56,7 @@ Before doing the models, we need to gather information about the distributions, 
 
 ![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/styleDist.png?raw=true)
 <br/><br/>
-From the barchart above we can see that the most 'popular' style is America IPA, with American Pale Ale on the second place and American Amber/ Red Ale on the third place. There are many styles that only take a small fracture of the whole dataset.
+From the barchart above we can see that the most 'popular' style is America IPA, with American Pale Ale on the second place and American Amber/ Red Ale on the third place. There are many styles that only take a small fracture of the whole dataset that are not shown here.
 
 ![alt text](https://github.com/in-droid/PR21INRAKT/blob/master/images/scatterPlot.png?raw=true)
 <br/><br/>
