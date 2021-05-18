@@ -113,6 +113,7 @@ The above graph shows the clusters in the state '(MN) Minnesota', having a decen
 ## Recommendation function
 
 For our recommendation function we will first create 2 clusterings for the whole beers dataset. First one using the optimal calculated t metric for cutting, and the second with the optimal metric decreased by 0.2 points. The second is mainly used in cases where the first's derived groups are too big and we need to branch out more to get a better recommendation. 
+
 Most clusters are of reasonable length, but we have some clusters with more than 400, 200 and 100 elements, that are a bit too big to get recommendations from. This is why we employ the second clustering method for those.
 
 ## GUI Implementation
